@@ -25,10 +25,8 @@ class PostControls extends Component {
     }
 
     handleVotePost(vote) {
-        const { post, votePost, history } = this.props;
-        votePost(post.id, vote).then(response => {
-            history.push(`/${response.post.category}/${response.post.id}`);
-        })
+        const { post, votePost } = this.props;
+        votePost(post.id, vote);
     }
 
     render() {

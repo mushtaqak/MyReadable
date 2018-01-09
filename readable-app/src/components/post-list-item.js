@@ -3,7 +3,7 @@ import React from 'react'
 import {  Link } from 'react-router-dom';
 import { Grid, Header, Segment, Divider } from 'semantic-ui-react'
 
-import PostInfo from './post-info'
+import PostControls from './post-controls'
 
 
 export default function PostListItem({ post }) {
@@ -14,7 +14,7 @@ export default function PostListItem({ post }) {
                 <Segment>
                     <Header as='h2'><Link to={`/${post.category}/${post.id}`}>{post.title}</Link></Header>
                     <Divider hidden />
-                    <PostInfo post={post} />
+                    <PostControls post={post} commentCount={post.commentCount} />
                     <Divider hidden />
                     <div>{post.body}</div>
                 </Segment>

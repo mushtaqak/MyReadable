@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container, Divider, Message } from 'semantic-ui-react'
+import { Container, Divider } from 'semantic-ui-react'
 
 import { getPostDetail } from '../actions/posts'
 import { getPostComments } from '../actions/comments'
 import HeaderNavBar from './nav-header';
 import PostDetailItem from './post-detail-item';
 import PostCommentList from './post-comment-list';
+import NotFoundPage from './not-found-page'
 
 class PostDetailPage extends Component {
 
@@ -22,25 +23,26 @@ class PostDetailPage extends Component {
 
     fetchData = () => {
         const { postId } = this.props.match.params
-        const {getPostDetail, getPostComments} = this.props
+        const { getPostDetail, getPostComments } = this.props
         getPostDetail(postId)
         getPostComments(postId)
     }
 
     render() {
         const { posts, comments } = this.props
-        const isPostEmpty = posts.length === 0;
+        const post = posts.length !== 0 && posts[0];
         return (
             <Container>
                 <HeaderNavBar params={this.props.match.params} />
                 <Divider hidden />
-                {isPostEmpty ? <Message negative><Message.Header>Post not found</Message.Header></Message>
-                    :
+                {Object.keys(post).length !== 0?
                     <Container>
                         <Divider horizontal >Post Detail</Divider>
-                        <PostDetailItem post={posts[0]} commentCount={comments.length} />
-                        <PostCommentList post={posts[0]} />
+                        <PostDetailItem post={post} commentCount={comments.length} />
+                        <PostCommentList post={post} />
                     </Container>
+                    :
+                    <NotFoundPage message='Post not found.' />
                 }
             </Container>
         );
